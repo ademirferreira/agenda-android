@@ -34,6 +34,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_alunos);
         setTitle(TITULO_APPBAR);
         configuraFabNovoAluno();
+        configuraLista();
 
         dao.salva(new Aluno("Ademir", "111222333", "ademir@gmail.com"));
         dao.salva(new Aluno("Sophia","11222333", "sophia@gmail"));
@@ -51,23 +52,35 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        configuraLista();
+        atualizaAlunos();
+    }
+
+    private void atualizaAlunos() {
+        adapter.clear();
+        adapter.addAll(dao.todos());
     }
 
     private void configuraLista() {
         ListView listaDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
-        final List<Aluno> alunos = dao.todos();
-        configuraAdapter(listaDeAlunos, alunos);
+        configuraAdapter(listaDeAlunos);
         configuraListenerDeCliquePorItem(listaDeAlunos);
+        configuraListenerDeCliqueLongoPorItem(listaDeAlunos);
+    }
+
+    private void configuraListenerDeCliqueLongoPorItem(ListView listaDeAlunos) {
         listaDeAlunos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Aluno alunoEscolhido = (Aluno) adapterView.getItemAtPosition(position);
-                dao.remove(alunoEscolhido);
-                adapter.remove(alunoEscolhido);
+                remove(alunoEscolhido);
                 return true;
             }
         });
+    }
+
+    private void remove(Aluno alunoEscolhido) {
+        dao.remove(alunoEscolhido);
+        adapter.remove(alunoEscolhido);
     }
 
     private void configuraListenerDeCliquePorItem(ListView listaDeAlunos) {
@@ -86,8 +99,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
         ListaAlunosActivity.this.startActivity(vaiParaFormularioActivity);
     }
 
-    private void configuraAdapter(ListView listaDeAlunos, List<Aluno> alunos) {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alunos);
+    private void configuraAdapter(ListView listaDeAlunos) {
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         listaDeAlunos.setAdapter(adapter);
     }
 }
