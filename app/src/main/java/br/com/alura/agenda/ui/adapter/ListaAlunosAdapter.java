@@ -67,6 +67,6 @@ public class ListaAlunosAdapter extends BaseAdapter {
         this.alunos.clear();
         this.alunos.addAll(alunos);
         notifyDataSetChanged();
-        
+
     }
 }
