@@ -16,7 +16,7 @@ import br.com.alura.agenda.model.Aluno;
 
 public class ListaAlunosAdapter extends BaseAdapter {
     private final List<Aluno> alunos = new ArrayList<>();
-    private Context context;
+    private final Context context;
 
     public ListaAlunosAdapter(Context context){
         this.context = context;
@@ -39,26 +39,34 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        @SuppressLint("ViewHolder") View viewCriada = LayoutInflater.from(context)
-                .inflate(R.layout.item_aluno, viewGroup, false);
-        Aluno alunoDevolvido = alunos.get(position);
-        TextView nome = viewCriada.findViewById(R.id.item_aluno_nome);
-        nome.setText(alunoDevolvido.getNome());
+        @SuppressLint("ViewHolder") View viewCriada = criaView(viewGroup);
 
-        TextView telefone = viewCriada.findViewById(R.id.item_aluno_telefone);
-        telefone.setText(alunoDevolvido.getTelefone());
+        Aluno alunoDevolvido = alunos.get(position);
+        vincula(viewCriada, alunoDevolvido);
         return viewCriada;
     }
 
-    public void clear() {
-        alunos.clear();
+    private void vincula(View view, Aluno aluno) {
+        TextView nome = view.findViewById(R.id.item_aluno_nome);
+        nome.setText(aluno.getNome());
+        TextView telefone = view.findViewById(R.id.item_aluno_telefone);
+        telefone.setText(aluno.getTelefone());
     }
 
-    public void addAll(List<Aluno> alunos) {
-        this.alunos.addAll(alunos);
+    private View criaView(ViewGroup viewGroup) {
+        return LayoutInflater.from(context)
+                .inflate(R.layout.item_aluno, viewGroup, false);
     }
 
     public void remove(Aluno aluno) {
         alunos.remove(aluno);
+        notifyDataSetChanged();
+    }
+
+    public void atualiza(List<Aluno> alunos){
+        this.alunos.clear();
+        this.alunos.addAll(alunos);
+        notifyDataSetChanged();
+        
     }
 }
