@@ -5,6 +5,5 @@
     <string name="email">E-mail</string>
     <string name="salvar">Salvar</string>
     <string name="remover">Remover</string>
-    <string name="novo_aluno">NovoAluno</string>
-    <string name="sobrenome">Sobrenome</string>
+    <string name="novo_aluno">Novo Aluno</string>
 </resources>

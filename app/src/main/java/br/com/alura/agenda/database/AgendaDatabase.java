@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import br.com.alura.agenda.database.dao.AlunoDAO;
 import br.com.alura.agenda.model.Aluno;
 
-@Database(entities = { Aluno.class }, version = 2, exportSchema = false)
+@Database(entities = { Aluno.class }, version = 3, exportSchema = false)
 public abstract class AgendaDatabase extends RoomDatabase {
 
     private static final String NOME_BANCO_DE_DADOS = "agenda.db";
@@ -26,6 +26,21 @@ public abstract class AgendaDatabase extends RoomDatabase {
                     @Override
                     public void migrate(@NonNull SupportSQLiteDatabase database) {
                         database.execSQL("ALTER TABLE aluno ADD COLUMN sobrenome TEXT");
+                    }
+                }, new Migration(2, 3) {
+                    @Override
+                    public void migrate(@NonNull SupportSQLiteDatabase database) {
+                        // Criar nova tabela com as informações desejadas
+                        database.execSQL("CREATE TABLE IF NOT EXISTS `Aluno_novo`" +
+                                " (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                                " `nome` TEXT, `telefone` TEXT, `email` TEXT)");
+                        // Copiar dados da tabela antiga para a nova
+                        database.execSQL("INSERT INTO Aluno_novo (id, nome, telefone, email)" +
+                                "SELECT id, nome, telefone, email FROM Aluno");
+                        // Remove a tabela antiga
+                        database.execSQL("DROP TABLE Aluno");
+                        // Renomear a tabela nova com o nome da tabela antiga
+                        database.execSQL("ALTER TABLE Aluno_novo RENAME TO Aluno");
                     }
                 })
                 .build();
