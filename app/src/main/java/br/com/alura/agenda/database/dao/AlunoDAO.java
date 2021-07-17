@@ -13,7 +13,7 @@ import br.com.alura.agenda.model.Aluno;
 @Dao
 public interface AlunoDAO {
     @Insert
-    void salva(Aluno aluno);
+    Long salva(Aluno aluno);
 
     @Delete
     void remove(Aluno aluno);

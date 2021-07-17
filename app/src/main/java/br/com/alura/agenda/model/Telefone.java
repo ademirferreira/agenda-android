@@ -18,6 +18,12 @@ public class Telefone {
     @ColumnInfo(index = true)
     private int alunoId;
 
+    public Telefone(String numero, TipoTelefone tipo, int alunoId) {
+        this.numero = numero;
+        this.tipo = tipo;
+        this.alunoId = alunoId;
+    }
+
     public int getAlunoId() {
         return alunoId;
     }
