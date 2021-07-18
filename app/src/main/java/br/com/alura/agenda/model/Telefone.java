@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = Aluno.class, parentColumns = "id", childColumns = "alunoId", onUpdate = CASCADE, onDelete = CASCADE ))
+@Entity(foreignKeys = @ForeignKey(entity = Aluno.class, parentColumns = "id", childColumns = "alunoId", onUpdate = CASCADE, onDelete = CASCADE))
 public class Telefone {
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -18,10 +18,9 @@ public class Telefone {
     @ColumnInfo(index = true)
     private int alunoId;
 
-    public Telefone(String numero, TipoTelefone tipo, int alunoId) {
+    public Telefone(String numero, TipoTelefone tipo) {
         this.numero = numero;
         this.tipo = tipo;
-        this.alunoId = alunoId;
     }
 
     public int getAlunoId() {

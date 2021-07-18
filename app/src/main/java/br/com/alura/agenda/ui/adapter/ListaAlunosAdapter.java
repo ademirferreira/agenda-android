@@ -22,7 +22,7 @@ public class ListaAlunosAdapter extends BaseAdapter {
     private final Context context;
     private final TelefoneDAO dao;
 
-    public ListaAlunosAdapter(Context context){
+    public ListaAlunosAdapter(Context context) {
         this.context = context;
         dao = AgendaDatabase.getInstance(context).getTelefoneDAO();
     }
@@ -56,7 +56,7 @@ public class ListaAlunosAdapter extends BaseAdapter {
         nome.setText(aluno.getNome());
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
         Telefone primeiroTelefone = dao.buscaPrimeiroTelefoneDoAluno(aluno.getId());
-        if(primeiroTelefone != null){
+        if (primeiroTelefone != null) {
             telefone.setText(primeiroTelefone.getNumero());
         }
     }
@@ -71,7 +71,7 @@ public class ListaAlunosAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void atualiza(List<Aluno> alunos){
+    public void atualiza(List<Aluno> alunos) {
         this.alunos.clear();
         this.alunos.addAll(alunos);
         notifyDataSetChanged();
